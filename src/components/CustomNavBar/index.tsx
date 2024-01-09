@@ -1,4 +1,4 @@
-import { Input, Text, View } from "@tarojs/components";
+import { Text, View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { useEffect, useState } from "react";
 import { AtSearchBar } from "taro-ui";
