@@ -35,6 +35,7 @@
     "@tarojs/runtime": "3.6.19",
     "@tarojs/shared": "3.6.19",
     "@tarojs/taro": "3.6.19",
+    "moment": "^2.30.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-query": "^3.39.3",

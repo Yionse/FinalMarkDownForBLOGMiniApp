@@ -6,7 +6,10 @@ import th from "@/assets/th.jpg";
 import th1 from "@/assets/th1.jpg";
 import th2 from "@/assets/th2.jpg";
 import th3 from "@/assets/th3.jpg";
-import { get } from "@/apis";
+import { fetchIndexPage } from "@/apis/page";
+import moment from "moment";
+import { AtIcon } from "taro-ui";
+import Article from "../Article";
 
 const list = [
   { title: "Umi3", url: th, pageId: "1111" },
@@ -28,9 +31,9 @@ const queryClient = new QueryClient({
 });
 
 function Home() {
-  const { data } = useQuery(["indexmd"], () => get("/page/indexmd"));
+  const { data } = useQuery(["indexmd"], () => fetchIndexPage());
   return (
-    <View>
+    <View style={{ background: "#f7f7f7" }}>
       <CustomNavBar />
       <Swiper
         className="test-h"
@@ -62,6 +65,60 @@ function Home() {
           </SwiperItem>
         ))}
       </Swiper>
+      <View style={{ background: "#f7f7f7" }}>
+        {data?.data.map((item) => (
+          <Link to={`/pages/article/index?pageId=${item.pageid}`}>
+            <View
+              className="flex flex-row my-2 mx-2 py-2"
+              style={{
+                borderBottom: "4px solid rgba(0,0,0,.4)",
+              }}
+            >
+              <Image
+                src={item?.coverUrl}
+                className="w-40 h-28 rounded-xl flex-shrink-0"
+              />
+              <View className=" flex flex-col w-full px-4 flex-grow-0">
+                <View className="page-item-title">{item.title}</View>
+                <Text
+                  className="my-1 flex-grow-0"
+                  style={{
+                    fontSize: "12px",
+                    textIndent: "1rem",
+                    height: "60%",
+                  }}
+                >
+                  {item.description.slice(0, 50)}
+                </Text>
+                <View
+                  className=" flex flex-row text-xs justify-around"
+                  style={{ height: "20%", color: "#6190e8" }}
+                >
+                  <Text>
+                    {moment(Number(item.createTime)).format("YYYY-MM-DD")}
+                  </Text>
+                  <View className="flex-grow pl-1">
+                    <Text style={{ color: "black" }}>
+                      <AtIcon value="eye" size={12} />
+                      {item.viewCount}
+                    </Text>
+                    &nbsp;
+                    <Text style={{ color: "#6190e8" }}>
+                      <AtIcon value="heart-2" size={12} />
+                      {item.likeCount}
+                    </Text>
+                    &nbsp;
+                    <Text style={{ color: "black" }}>
+                      <AtIcon value="heart" size={12} />
+                      {item.unlikeCount}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Link>
+        ))}
+      </View>
     </View>
   );
 }
@@ -71,7 +128,8 @@ export default function Index() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
-          <Route path="pages/index/index" element={<Home />} />
+          <Route path="pages/index/index" index element={<Home />} />
+          <Route path="pages/article/index" element={<Article />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
