@@ -91,28 +91,16 @@ function Home() {
                   {item.description.slice(0, 50)}
                 </Text>
                 <View
-                  className=" flex flex-row text-xs justify-around"
+                  className=" flex flex-row text-xs"
                   style={{ height: "20%", color: "#6190e8" }}
                 >
                   <Text>
                     {moment(Number(item.createTime)).format("YYYY-MM-DD")}
                   </Text>
-                  <View className="flex-grow pl-1">
-                    <Text style={{ color: "black" }}>
-                      <AtIcon value="eye" size={12} />
-                      {item.viewCount}
-                    </Text>
-                    &nbsp;
-                    <Text style={{ color: "#6190e8" }}>
-                      <AtIcon value="heart-2" size={12} />
-                      {item.likeCount}
-                    </Text>
-                    &nbsp;
-                    <Text style={{ color: "black" }}>
-                      <AtIcon value="heart" size={12} />
-                      {item.unlikeCount}
-                    </Text>
-                  </View>
+                  <Text style={{ color: "black", marginLeft: "30px" }}>
+                    <AtIcon value="eye" size={12} />
+                    {item.viewCount}
+                  </Text>
                 </View>
               </View>
             </View>

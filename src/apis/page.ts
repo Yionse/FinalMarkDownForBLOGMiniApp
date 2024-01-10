@@ -19,5 +19,5 @@ export function fetchIndexPage() {
 }
 
 export function fetchMdContent(pageId: string) {
-  return get<{ content: string }>(`/page/md?pageId=${pageId}`);
+  return get<{ content: string }>(`/page/md`, { pageId });
 }
