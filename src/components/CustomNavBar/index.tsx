@@ -6,15 +6,19 @@ import { AtSearchBar } from "taro-ui";
 
 type TProps = {
   showSearch?: boolean;
+  setTop?: React.Dispatch<React.SetStateAction<undefined>>;
 };
 
-export default function CustomNavBar({ showSearch = true }: TProps) {
+export default function CustomNavBar({ showSearch = true, setTop }: TProps) {
   const [marginTop, setMarginTop] = useState<Number>();
   const [key, setKey] = useState<string>("");
   useEffect(() => {
     async function initBarHeight() {
       const { statusBarHeight } = await Taro.getSystemInfo();
       setMarginTop(statusBarHeight!);
+      if (setTop) {
+        setTop(statusBarHeight!);
+      }
     }
     initBarHeight();
   }, []);

@@ -1,40 +1,54 @@
-import { fetchMdContent } from "@/apis/page";
+import { fetchMdContent, fetchUserInfo } from "@/apis/page";
 import CustomNavBar from "@/components/CustomNavBar";
-import { Image, Text, View } from "@tarojs/components";
+import { Button, Image, ScrollView, Text, View } from "@tarojs/components";
 import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown"; //引入
 import remarkGfm from "remark-gfm";
 import row from "rehype-raw";
 import "./index.less";
-import { AtFab, AtIcon } from "taro-ui";
+import { useState } from "react";
+import { AtIcon, AtDrawer } from "taro-ui";
+import Taro from "@tarojs/taro";
 
 definePageConfig({
   navigationBarTitleText: "文章",
 });
 
 export default function Article() {
+  // const [isShowFlowBtn, setIsShowFlowBtn] = useState<boolean>(false);
+  const [isShowDrawer, setIsShowDrawer] = useState<boolean>(false);
   const location = useLocation();
   const params = new URLSearchParams(location.search);
+  const [_, setTop] = useState<number>();
   const pageId = params.get("pageId") || "";
+  const qq = pageId?.slice(0, -13);
   const { data } = useQuery(
     ["pageData", pageId],
-    async () => fetchMdContent(pageId),
+    async () => {
+      const [{ content }, { sqlRes }] = await Promise.all([
+        fetchMdContent(pageId),
+        fetchUserInfo(qq),
+      ]);
+      return {
+        content,
+        userInfo: sqlRes,
+      };
+    },
     {
       refetchOnWindowFocus: false,
     }
   );
   return (
-    <>
-      <CustomNavBar showSearch={false} />
-      <View
-        className="p-2 px-4"
-        style={{ background: "#f3f2ee" }}
-        id="PageContent"
-        onTouchMove={(e) => {
-          console.log(e);
-        }}
-      >
+    <View
+      className="relative"
+      style={{
+        background: "#f3f2ee",
+      }}
+    >
+      <CustomNavBar showSearch={false} setTop={setTop} />
+
+      <View className="p-2 px-4 box-border page-box">
         <ReactMarkdown
           children={data?.content}
           remarkPlugins={[remarkGfm]}
@@ -107,10 +121,35 @@ export default function Article() {
             },
           }}
         />
-        <AtFab>
-          <Text className="at-fab__icon at-icon at-icon-menu"></Text>
-        </AtFab>
       </View>
-    </>
+      <View
+        className="fixed right-8 bottom-8 flex flex-col rounded-full p-2"
+        style={{
+          background: "#f7f7f7",
+        }}
+      >
+        <AtIcon
+          value="chevron-up"
+          size={30}
+          onClick={() =>
+            Taro.pageScrollTo({
+              scrollTop: 0,
+              duration: 300,
+            })
+          }
+        />
+        <AtIcon value="user" size={30} onClick={() => setIsShowDrawer(true)} />
+      </View>
+      <AtDrawer
+        show={isShowDrawer}
+        mask
+        right
+        onClose={() => setIsShowDrawer(false)}
+      >
+        <View>
+          <Image src={data?.userInfo.userImg!} />
+        </View>
+      </AtDrawer>
+    </View>
   );
 }
