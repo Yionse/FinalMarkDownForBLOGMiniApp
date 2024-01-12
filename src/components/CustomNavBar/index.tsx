@@ -1,27 +1,20 @@
-import { Input, Text, View } from "@tarojs/components";
-import Taro from "@tarojs/taro";
-import { useEffect, useState } from "react";
+import useTopSecure from "@/hooks/useTopSecure";
+import { Image, Text, View } from "@tarojs/components";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AtSearchBar } from "taro-ui";
 
 type TProps = {
   showSearch?: boolean;
-  setTop?: React.Dispatch<React.SetStateAction<undefined>>;
+  setTop?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function CustomNavBar({ showSearch = true, setTop }: TProps) {
-  const [marginTop, setMarginTop] = useState<Number>();
   const [key, setKey] = useState<string>("");
-  useEffect(() => {
-    async function initBarHeight() {
-      const { statusBarHeight } = await Taro.getSystemInfo();
-      setMarginTop(statusBarHeight!);
-      if (setTop) {
-        setTop(statusBarHeight!);
-      }
-    }
-    initBarHeight();
-  }, []);
+  const { marginTop } = useTopSecure();
+  if (setTop) {
+    setTop(marginTop!);
+  }
   return (
     <>
       <View
@@ -34,7 +27,10 @@ export default function CustomNavBar({ showSearch = true, setTop }: TProps) {
         }}
       >
         <Link to={"/pages/index/index"}>
-          <Text>Z-BLOG</Text>
+          <Image
+            src="http://localhost:9876/systemImgs/logo.png"
+            style={{ height: "50px" }}
+          />
         </Link>
       </View>
       {showSearch && (
@@ -43,9 +39,6 @@ export default function CustomNavBar({ showSearch = true, setTop }: TProps) {
           actionName="搜一下"
           value={key}
           onChange={setKey}
-          onActionClick={() => {
-            console.log(key);
-          }}
         />
       )}
     </>

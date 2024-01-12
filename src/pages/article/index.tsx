@@ -1,4 +1,8 @@
-import { fetchMdContent, fetchUserInfo } from "@/apis/page";
+import {
+  fetchMdContent,
+  fetchPageCommentList,
+  fetchUserInfo,
+} from "@/apis/page";
 import CustomNavBar from "@/components/CustomNavBar";
 import { Button, Image, ScrollView, Text, View } from "@tarojs/components";
 import { useQuery } from "react-query";
@@ -10,29 +14,34 @@ import "./index.less";
 import { useState } from "react";
 import { AtIcon, AtDrawer } from "taro-ui";
 import Taro from "@tarojs/taro";
+import CommentList from "./CommentList";
+import useTopSecure from "@/hooks/useTopSecure";
 
 definePageConfig({
   navigationBarTitleText: "文章",
 });
 
 export default function Article() {
-  // const [isShowFlowBtn, setIsShowFlowBtn] = useState<boolean>(false);
+  const [isShowComment, setIsShowComment] = useState<boolean>(false);
   const [isShowDrawer, setIsShowDrawer] = useState<boolean>(false);
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const [_, setTop] = useState<number>();
   const pageId = params.get("pageId") || "";
   const qq = pageId?.slice(0, -13);
+  const { marginTop } = useTopSecure();
   const { data } = useQuery(
     ["pageData", pageId],
     async () => {
-      const [{ content }, { sqlRes }] = await Promise.all([
+      const [{ content }, { sqlRes }, { data }] = await Promise.all([
         fetchMdContent(pageId),
         fetchUserInfo(qq),
+        fetchPageCommentList(pageId),
       ]);
       return {
         content,
         userInfo: sqlRes,
+        commentList: data,
       };
     },
     {
@@ -47,7 +56,6 @@ export default function Article() {
       }}
     >
       <CustomNavBar showSearch={false} setTop={setTop} />
-
       <View className="p-2 px-4 box-border page-box">
         <ReactMarkdown
           children={data?.content}
@@ -137,8 +145,22 @@ export default function Article() {
               duration: 300,
             })
           }
+          color="#1677ff"
         />
-        <AtIcon value="user" size={30} onClick={() => setIsShowDrawer(true)} />
+        <View className="my-4" style={{ borderBottom: "1px solid #ccc" }} />
+        <AtIcon
+          value="user"
+          size={30}
+          onClick={() => setIsShowDrawer(true)}
+          color="#1677ff"
+        />
+        <View className="my-4" style={{ borderBottom: "1px solid #ccc" }} />
+        <AtIcon
+          value="message"
+          size={30}
+          onClick={() => setIsShowComment(true)}
+          color="#1677ff"
+        />
       </View>
       <AtDrawer
         show={isShowDrawer}
@@ -146,9 +168,29 @@ export default function Article() {
         right
         onClose={() => setIsShowDrawer(false)}
       >
-        <View>
-          <Image src={data?.userInfo.userImg!} />
+        <View style={{ marginTop }} className="box-border p-4">
+          <View className="text-center">
+            <Image
+              src={data?.userInfo.userImg!}
+              className="rounded-full h-20 w-20"
+            />
+          </View>
+          <View
+            className="h-10 text-2xl pb-2"
+            style={{ lineHeight: "40px", borderBottom: "1px solid #ccc" }}
+          >
+            <Text className="font-bold">{data?.userInfo.userName}</Text>
+          </View>
+          <View
+            className="h-10 text-2xl pb-2"
+            style={{ lineHeight: "40px", borderBottom: "1px solid #ccc" }}
+          >
+            <Text className="font-bold">{data?.userInfo.qq}</Text>
+          </View>
         </View>
+      </AtDrawer>
+      <AtDrawer show={isShowComment} onClose={() => setIsShowComment(false)}>
+        <CommentList data={data?.commentList!} />
       </AtDrawer>
     </View>
   );

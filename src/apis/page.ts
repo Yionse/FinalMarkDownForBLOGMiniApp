@@ -30,6 +30,13 @@ type UserInfoType = {
   };
 };
 
+export type MessageType = {
+  username: string;
+  userimg: string;
+  content: string;
+  createTime: string;
+};
+
 export function fetchIndexPage() {
   return get<IndexMdType>("/page/indexmd");
 }
@@ -40,4 +47,10 @@ export function fetchMdContent(pageId: string) {
 
 export function fetchUserInfo(qq: string) {
   return get<UserInfoType>("/user/getuserinfo", { qq });
+}
+
+export function fetchPageCommentList(pageid: string) {
+  return get<{
+    data: MessageType[];
+  }>("/page/commentlist", { pageid });
 }
