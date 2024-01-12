@@ -6,6 +6,8 @@ import { fetchIndexPage } from "@/apis/page";
 import moment from "moment";
 import { AtIcon } from "taro-ui";
 import Article from "../Article";
+import Search from "../Search";
+import PageItem from "@/components/PageItem";
 
 const list = [
   {
@@ -79,44 +81,7 @@ function Home() {
       </Swiper>
       <View style={{ background: "#f7f7f7" }}>
         {data?.data.map((item) => (
-          <Link to={`/pages/article/index?pageId=${item.pageid}`}>
-            <View
-              className="flex flex-row my-2 mx-2 py-2"
-              style={{
-                borderBottom: "4px solid rgba(0,0,0,.4)",
-              }}
-            >
-              <Image
-                src={item?.coverUrl}
-                className="w-40 h-28 rounded-xl flex-shrink-0"
-              />
-              <View className=" flex flex-col w-full px-4 flex-grow-0">
-                <View className="page-item-title">{item.title}</View>
-                <Text
-                  className="my-1 flex-grow-0"
-                  style={{
-                    fontSize: "12px",
-                    textIndent: "1rem",
-                    height: "60%",
-                  }}
-                >
-                  {item.description.slice(0, 50)}
-                </Text>
-                <View
-                  className=" flex flex-row text-xs"
-                  style={{ height: "20%", color: "#6190e8" }}
-                >
-                  <Text>
-                    {moment(Number(item.createTime)).format("YYYY-MM-DD HH:mm")}
-                  </Text>
-                  <Text style={{ color: "black", marginLeft: "30px" }}>
-                    <AtIcon value="eye" size={12} />
-                    {item.viewCount}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </Link>
+          <PageItem item={item} />
         ))}
       </View>
     </View>
@@ -130,6 +95,7 @@ export default function Index() {
         <Routes>
           <Route path="pages/index/index" index element={<Home />} />
           <Route path="pages/article/index" element={<Article />} />
+          <Route path="pages/search/index" element={<Search />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

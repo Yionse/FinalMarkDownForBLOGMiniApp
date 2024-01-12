@@ -37,6 +37,30 @@ export type MessageType = {
   createTime: string;
 };
 
+export interface UserRes {
+  qq: string;
+  userImg: string;
+  userName: string;
+  description: string;
+}
+
+export interface TitleRes {
+  qq: string;
+  pageid: string;
+  title: string;
+  coverUrl: string;
+  createTime: string;
+  likeCount: number;
+  unlikeCount: number;
+  description: string;
+  viewCount: number;
+}
+
+export type SearchResType = {
+  titleRes: TitleRes[];
+  userRes: UserRes[];
+};
+
 export function fetchIndexPage() {
   return get<IndexMdType>("/page/indexmd");
 }
@@ -53,4 +77,8 @@ export function fetchPageCommentList(pageid: string) {
   return get<{
     data: MessageType[];
   }>("/page/commentlist", { pageid });
+}
+
+export function fetchQueryKey(key: string) {
+  return get<SearchResType>("/page/query", { key });
 }

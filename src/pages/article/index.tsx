@@ -145,21 +145,21 @@ export default function Article() {
               duration: 300,
             })
           }
-          color="#1677ff"
+          color="#6190e8"
         />
         <View className="my-4" style={{ borderBottom: "1px solid #ccc" }} />
         <AtIcon
           value="user"
           size={30}
           onClick={() => setIsShowDrawer(true)}
-          color="#1677ff"
+          color="#6190e8"
         />
         <View className="my-4" style={{ borderBottom: "1px solid #ccc" }} />
         <AtIcon
           value="message"
           size={30}
           onClick={() => setIsShowComment(true)}
-          color="#1677ff"
+          color="#6190e8"
         />
       </View>
       <AtDrawer

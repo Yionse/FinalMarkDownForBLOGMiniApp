@@ -1,8 +1,9 @@
 import useTopSecure from "@/hooks/useTopSecure";
-import { Image, Text, View } from "@tarojs/components";
+import { Image, Input, Text, View } from "@tarojs/components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AtSearchBar } from "taro-ui";
+import { useNavigate } from "react-router-dom";
 
 type TProps = {
   showSearch?: boolean;
@@ -10,6 +11,7 @@ type TProps = {
 };
 
 export default function CustomNavBar({ showSearch = true, setTop }: TProps) {
+  const navigate = useNavigate();
   const [key, setKey] = useState<string>("");
   const { marginTop } = useTopSecure();
   if (setTop) {
@@ -39,6 +41,7 @@ export default function CustomNavBar({ showSearch = true, setTop }: TProps) {
           actionName="搜一下"
           value={key}
           onChange={setKey}
+          onActionClick={() => navigate(`/pages/search/index?key=${key}`)}
         />
       )}
     </>
