@@ -62,7 +62,7 @@ export type SearchResType = {
 };
 
 export function fetchIndexPage() {
-  return get<IndexMdType>("/page/indexmd");
+  return get<IndexMdType>("/page/indexmd", { platform: 0 });
 }
 
 export function fetchMdContent(pageId: string) {

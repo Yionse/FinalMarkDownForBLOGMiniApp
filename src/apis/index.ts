@@ -31,7 +31,7 @@ export type ClientError = {
 };
 
 export const post = <T>(url: string, data?: any): T => {
-  return httpInstance.post(url, data) as T;
+  return httpInstance.post<T>(url, data) as T;
 };
 
 export const get = <T>(url: string, data?: any): T => {
