@@ -148,7 +148,7 @@ export default function Article() {
           color="#6190e8"
         />
         <View className="my-4" style={{ borderBottom: "1px solid #ccc" }} />
-        <AtIcon
+        {/* <AtIcon
           value="user"
           size={30}
           onClick={() => setIsShowDrawer(true)}
@@ -160,9 +160,9 @@ export default function Article() {
           size={30}
           onClick={() => setIsShowComment(true)}
           color="#6190e8"
-        />
+        /> */}
       </View>
-      <AtDrawer
+      {/* <AtDrawer
         show={isShowDrawer}
         mask
         right
@@ -191,7 +191,7 @@ export default function Article() {
       </AtDrawer>
       <AtDrawer show={isShowComment} onClose={() => setIsShowComment(false)}>
         <CommentList data={data?.commentList!} />
-      </AtDrawer>
+      </AtDrawer> */}
     </View>
   );
 }

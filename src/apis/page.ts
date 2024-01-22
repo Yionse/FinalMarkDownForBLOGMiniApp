@@ -11,6 +11,9 @@ type IndexMdType = {
     unlikeCount: number;
     description: string;
     viewCount: number;
+    isCheckSuccess: number;
+    reason?: string;
+    position: string;
   }[];
 };
 

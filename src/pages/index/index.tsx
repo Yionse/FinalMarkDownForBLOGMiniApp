@@ -1,36 +1,12 @@
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import CustomNavBar from "@/components/CustomNavBar";
 import { Image, Swiper, SwiperItem, Text, View } from "@tarojs/components";
 import { fetchIndexPage } from "@/apis/page";
-import moment from "moment";
-import { AtIcon } from "taro-ui";
 import Article from "../Article";
 import Search from "../Search";
 import PageItem from "@/components/PageItem";
-
-const list = [
-  {
-    title: "Umi3",
-    url: "http://localhost:9876/systemImgs/th.jpg",
-    pageId: "1111",
-  },
-  {
-    title: "React",
-    url: "http://localhost:9876/systemImgs/th.jpg",
-    pageId: "2222",
-  },
-  {
-    title: "Vue",
-    url: "http://localhost:9876/systemImgs/th.jpg",
-    pageId: "3333",
-  },
-  {
-    title: "Js",
-    url: "http://localhost:9876/systemImgs/th.jpg",
-    pageId: "4444",
-  },
-];
+import { useMemo } from "react";
 definePageConfig({
   navigationStyle: "custom",
 });
@@ -45,7 +21,18 @@ const queryClient = new QueryClient({
 });
 
 function Home() {
+  const navigate = useNavigate();
   const { data } = useQuery(["indexmd"], () => fetchIndexPage());
+  const swipe =
+    useMemo(
+      () => data?.data.filter((item) => item.position === "swipe"),
+      [data]
+    ) || [];
+  const home =
+    useMemo(
+      () => data?.data.filter((item) => item.position === "home"),
+      [data]
+    ) || [];
   return (
     <View style={{ background: "#f7f7f7" }}>
       <CustomNavBar />
@@ -58,8 +45,12 @@ function Home() {
         indicatorDots
         interval={3000}
       >
-        {list.map((item) => (
-          <SwiperItem>
+        {swipe!.map((item) => (
+          <SwiperItem
+            onClick={() =>
+              navigate(`/pages/article/index?pageId=${item.pageid}`)
+            }
+          >
             <View
               style={{ position: "relative", height: "100%", width: "100%" }}
             >
@@ -74,13 +65,16 @@ function Home() {
               >
                 {item.title}
               </Text>
-              <Image src={item.url} style={{ width: "100%", height: "100%" }} />
+              <Image
+                src={item.coverUrl}
+                style={{ width: "100%", height: "100%" }}
+              />
             </View>
           </SwiperItem>
         ))}
       </Swiper>
       <View style={{ background: "#f7f7f7" }}>
-        {data?.data.map((item) => (
+        {home.map((item) => (
           <PageItem item={item} />
         ))}
       </View>
