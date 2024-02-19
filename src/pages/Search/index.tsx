@@ -1,7 +1,7 @@
 import { fetchQueryKey } from "@/apis/page";
 import CustomNavBar from "@/components/CustomNavBar";
 import PageItem from "@/components/PageItem";
-import { Image, Text, View } from "@tarojs/components";
+import { Text, View } from "@tarojs/components";
 import { URLSearchParams } from "@tarojs/runtime";
 import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
@@ -23,6 +23,7 @@ export default function Search() {
       {data?.titleRes.map((item) => (
         <PageItem item={item} />
       ))}
+      <View>{data?.titleRes.length === 0 && <Text>当前暂无结果</Text>}</View>
       {/* 暂时不显示用户吧 */}
       {/* <Text
         className="p-4 text-xl mt-2"

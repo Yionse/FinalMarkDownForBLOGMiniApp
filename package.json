@@ -29,7 +29,6 @@
     "@tarojs/runtime": "3.6.19",
     "@tarojs/shared": "3.6.19",
     "@tarojs/taro": "3.6.19",
-    "classnames": "^2.5.1",
     "moment": "^2.30.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -38,8 +37,7 @@
     "react-router-dom": "^6.21.1",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
-    "taro-axios": "^1.1.1",
-    "taro-ui": "^3.2.2"
+    "taro-axios": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

@@ -4,9 +4,9 @@ import CustomNavBar from "@/components/CustomNavBar";
 import { Image, Swiper, SwiperItem, Text, View } from "@tarojs/components";
 import { fetchIndexPage } from "@/apis/page";
 import Article from "../Article";
-import Search from "../Search";
 import PageItem from "@/components/PageItem";
 import { useMemo } from "react";
+import Search from "../Search";
 definePageConfig({
   navigationStyle: "custom",
 });

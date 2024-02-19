@@ -4,7 +4,7 @@ import {
   fetchUserInfo,
 } from "@/apis/page";
 import CustomNavBar from "@/components/CustomNavBar";
-import { Image, Text, View } from "@tarojs/components";
+import { Icon, Image, Text, View } from "@tarojs/components";
 import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown"; //引入
@@ -12,7 +12,6 @@ import remarkGfm from "remark-gfm";
 import row from "rehype-raw";
 import "./index.less";
 import { useState } from "react";
-import { AtIcon } from "taro-ui";
 import Taro from "@tarojs/taro";
 
 definePageConfig({
@@ -52,7 +51,7 @@ export default function Article() {
     >
       <CustomNavBar showSearch={false} setTop={setTop} />
       <View className="p-2 px-4 box-border page-box">
-        <ReactMarkdown
+        {/* <ReactMarkdown
           children={data?.content}
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[row]}
@@ -123,27 +122,27 @@ export default function Article() {
               );
             },
           }}
-        />
+        /> */}
       </View>
-      <View
+      {/* <View
         className="fixed right-8 bottom-8 flex flex-col rounded-full p-2"
         style={{
           background: "#f7f7f7",
         }}
       >
-        <AtIcon
-          value="chevron-up"
-          size={30}
+        <Icon
+          type="success"
+          size="30"
+          color="#6190e8"
           onClick={() =>
             Taro.pageScrollTo({
               scrollTop: 0,
               duration: 300,
             })
           }
-          color="#6190e8"
         />
         <View className="my-4" style={{ borderBottom: "1px solid #ccc" }} />
-      </View>
+      </View> */}
     </View>
   );
 }

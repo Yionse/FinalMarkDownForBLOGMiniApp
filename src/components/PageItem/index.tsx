@@ -2,7 +2,6 @@ import { TitleRes } from "@/apis/page";
 import { Image, Text, View } from "@tarojs/components";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { AtIcon } from "taro-ui";
 
 export default function PageItem({ item }: { item: TitleRes }) {
   return (
@@ -36,10 +35,9 @@ export default function PageItem({ item }: { item: TitleRes }) {
             <Text>
               {moment(Number(item.createTime)).format("YYYY-MM-DD HH:mm")}
             </Text>
-            <Text style={{ color: "black", marginLeft: "30px" }}>
-              <AtIcon value="eye" size={12} />
-              {item.viewCount}
-            </Text>
+            {/* <Text style={{ color: "black", marginLeft: "30px" }}>
+              {"阅读量：" + item.viewCount}
+            </Text> */}
           </View>
         </View>
       </View>
