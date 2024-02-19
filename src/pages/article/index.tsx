@@ -4,7 +4,7 @@ import {
   fetchUserInfo,
 } from "@/apis/page";
 import CustomNavBar from "@/components/CustomNavBar";
-import { Button, Image, ScrollView, Text, View } from "@tarojs/components";
+import { Image, Text, View } from "@tarojs/components";
 import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown"; //引入
@@ -12,24 +12,19 @@ import remarkGfm from "remark-gfm";
 import row from "rehype-raw";
 import "./index.less";
 import { useState } from "react";
-import { AtIcon, AtDrawer } from "taro-ui";
+import { AtIcon } from "taro-ui";
 import Taro from "@tarojs/taro";
-import CommentList from "./CommentList";
-import useTopSecure from "@/hooks/useTopSecure";
 
 definePageConfig({
   navigationBarTitleText: "文章",
 });
 
 export default function Article() {
-  const [isShowComment, setIsShowComment] = useState<boolean>(false);
-  const [isShowDrawer, setIsShowDrawer] = useState<boolean>(false);
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const [_, setTop] = useState<number>();
   const pageId = params.get("pageId") || "";
   const qq = pageId?.slice(0, -13);
-  const { marginTop } = useTopSecure();
   const { data } = useQuery(
     ["pageData", pageId],
     async () => {
@@ -148,50 +143,7 @@ export default function Article() {
           color="#6190e8"
         />
         <View className="my-4" style={{ borderBottom: "1px solid #ccc" }} />
-        {/* <AtIcon
-          value="user"
-          size={30}
-          onClick={() => setIsShowDrawer(true)}
-          color="#6190e8"
-        />
-        <View className="my-4" style={{ borderBottom: "1px solid #ccc" }} />
-        <AtIcon
-          value="message"
-          size={30}
-          onClick={() => setIsShowComment(true)}
-          color="#6190e8"
-        /> */}
       </View>
-      {/* <AtDrawer
-        show={isShowDrawer}
-        mask
-        right
-        onClose={() => setIsShowDrawer(false)}
-      >
-        <View style={{ marginTop }} className="box-border p-4">
-          <View className="text-center">
-            <Image
-              src={data?.userInfo.userImg!}
-              className="rounded-full h-20 w-20"
-            />
-          </View>
-          <View
-            className="h-10 text-2xl pb-2"
-            style={{ lineHeight: "40px", borderBottom: "1px solid #ccc" }}
-          >
-            <Text className="font-bold">{data?.userInfo.userName}</Text>
-          </View>
-          <View
-            className="h-10 text-2xl pb-2"
-            style={{ lineHeight: "40px", borderBottom: "1px solid #ccc" }}
-          >
-            <Text className="font-bold">{data?.userInfo.qq}</Text>
-          </View>
-        </View>
-      </AtDrawer>
-      <AtDrawer show={isShowComment} onClose={() => setIsShowComment(false)}>
-        <CommentList data={data?.commentList!} />
-      </AtDrawer> */}
     </View>
   );
 }

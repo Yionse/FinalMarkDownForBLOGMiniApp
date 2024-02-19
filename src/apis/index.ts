@@ -1,5 +1,5 @@
 import axios from "taro-axios";
-const BASE_URL = "http://localhost:9876";
+const BASE_URL = "https://blog.end.zhangtc.online";
 
 const httpInstance = axios.create({
   baseURL: BASE_URL,

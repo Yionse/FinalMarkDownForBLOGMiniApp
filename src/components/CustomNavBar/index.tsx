@@ -30,7 +30,7 @@ export default function CustomNavBar({ showSearch = true, setTop }: TProps) {
       >
         <Link to={"/pages/index/index"}>
           <Image
-            src="http://localhost:9876/systemImgs/logo.png"
+            src="https://blog.end.zhangtc.online/systemImgs/logo.png"
             style={{ height: "50px" }}
           />
         </Link>
